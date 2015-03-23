@@ -16,7 +16,7 @@ import android.util.AttributeSet;
 import testing.fadingedge.R;
 
 /**
- * Double Encore
+ * Craig Buche
  * 3/23/15
  */
 public class FadingEdgeRecyclerView extends RecyclerView {
