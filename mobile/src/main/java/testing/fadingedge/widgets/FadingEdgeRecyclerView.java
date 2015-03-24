@@ -24,9 +24,6 @@ public class FadingEdgeRecyclerView extends RecyclerView {
     private int mFadingEdgeHeight;
     private Paint mGradientPaint;
 
-    private Bitmap mFadingEdgeBitmap;
-    private Canvas mFadingEdgeCanvas;
-
     private final int mOpaque = 0xFF000000;
     private final int mTransparent = Color.TRANSPARENT;
 
@@ -51,25 +48,6 @@ public class FadingEdgeRecyclerView extends RecyclerView {
         initializeShader();
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (w != oldw || h != oldh) {
-            updateBitmap();
-        }
-    }
-
-    private void updateBitmap() {
-        if (mFadingEdgeHeight == 0) return;
-
-        if (mFadingEdgeBitmap != null) mFadingEdgeBitmap.recycle();
-        mFadingEdgeBitmap = null;
-
-        mFadingEdgeBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-        mFadingEdgeBitmap.setHasAlpha(true);
-        mFadingEdgeCanvas = new Canvas(mFadingEdgeBitmap);
-    }
-
     private void initializeShader() {
         Shader shader = new LinearGradient(0, Math.round(mFadingEdgeHeight * 0.2f), 0, mFadingEdgeHeight, mTransparent, mOpaque, Shader.TileMode.CLAMP);
         mGradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -78,16 +56,9 @@ public class FadingEdgeRecyclerView extends RecyclerView {
     }
 
     @Override
-    public void onDraw(Canvas c) {
-        super.onDraw(c);
-    }
-
-    @Override
     protected void dispatchDraw(Canvas canvas) {
-        mFadingEdgeBitmap.eraseColor(Color.TRANSPARENT);
-        super.dispatchDraw(mFadingEdgeCanvas);
+        super.dispatchDraw(canvas);
 
-        canvas.drawBitmap(mFadingEdgeBitmap, 0, 0, null);
         canvas.drawRect(0, 0, getWidth(), mFadingEdgeHeight, mGradientPaint);
     }
 }
