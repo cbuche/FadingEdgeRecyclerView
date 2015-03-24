@@ -48,6 +48,7 @@ public class FadingEdgeRecyclerView extends RecyclerView {
         }
 
         setLayerType(LAYER_TYPE_SOFTWARE, null);
+        initializeShader();
     }
 
     @Override
@@ -55,7 +56,6 @@ public class FadingEdgeRecyclerView extends RecyclerView {
         super.onSizeChanged(w, h, oldw, oldh);
         if (w != oldw || h != oldh) {
             updateBitmap();
-            updateShader();
         }
     }
 
@@ -70,7 +70,7 @@ public class FadingEdgeRecyclerView extends RecyclerView {
         mFadingEdgeCanvas = new Canvas(mFadingEdgeBitmap);
     }
 
-    private void updateShader() {
+    private void initializeShader() {
         Shader shader = new LinearGradient(0, Math.round(mFadingEdgeHeight * 0.2f), 0, mFadingEdgeHeight, mTransparent, mOpaque, Shader.TileMode.CLAMP);
         mGradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mGradientPaint.setShader(shader);
